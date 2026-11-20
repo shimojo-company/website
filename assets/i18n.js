@@ -13,14 +13,18 @@ const I18N = {
   'nav.recruit':   { en: 'Careers', my: 'အလုပ်ခေါ်စာ' },
   'nav.contact':   { en: 'Contact', my: 'ဆက်သွယ်ရန်' },
   'nav.staff': { en: "Employees only", my: "ဝန်ထမ်းများသာ" },
+  'nav.partner': { en: "Subcontractors only", my: "လက်အောက်ကန်ထရိုက်တာများသာ" },
   'menu':          { en: 'Menu', my: 'မီနူး' },
   'tbd':           { en: '[To be confirmed]', my: '[အတည်ပြုရန်]' },
   'footer.privacy':{ en: 'Privacy Policy', my: 'ကိုယ်ရေးအချက်အလက် ကိုင်တွယ်ပုံ' },
   'footer.staff':  { en: 'For employees (login required)', my: 'ဝန်ထမ်းများအတွက် (ဝင်ရောက်ရန် လိုအပ်)' },
+  'footer.partner':{ en: 'For subcontractors (login required)', my: 'လက်အောက်ကန်ထရိုက်တာများအတွက် (ဝင်ရောက်ရန် လိုအပ်)' },
 
   'nav.staffpage': { en: "Employees only page", my: "ဝန်ထမ်းများသာ စာမျက်နှာ" },
   'drawer.site': { en: "Website", my: "ဝက်ဘ်ဆိုက်" },
   'drawer.staff': { en: "For employees", my: "ဝန်ထမ်းများအတွက်" },
+  'nav.partnerpage': { en: "Subcontractors only page", my: "လက်အောက်ကန်ထရိုက်တာများသာ စာမျက်နှာ" },
+  'drawer.partner': { en: "For subcontractors", my: "လက်အောက်ကန်ထရိုက်တာများအတွက်" },
   'drawer.close': { en: "Close", my: "ပိတ်မည်" },
   // トップ
   'hero.title':  { en: 'Fast, reliable framing for wooden homes.', my: 'သစ်သားအိမ်များ၏ ဘောင်ဆောက်လုပ်ငန်းကို မြန်ဆန်စွာ၊ စိတ်ချရစွာ။' },
@@ -202,7 +206,7 @@ const I18N = {
 };
 
 // 一覧の日本語（HTML に書いていない文）
-const DRAWER_JA = { 'nav.home': 'ホーム', 'nav.business': '事業内容', 'nav.strength': '強み', 'nav.company': '会社概要', 'nav.recruit': '求人・応募', 'footer.privacy': '個人情報の取り扱い', 'nav.staffpage': '従業員専用ページ', 'drawer.site': 'ホームページ', 'drawer.staff': '従業員の方へ', 'drawer.close': '閉じる', 'menu': 'メニュー' };
+const DRAWER_JA = { 'nav.home': 'ホーム', 'nav.business': '事業内容', 'nav.strength': '強み', 'nav.company': '会社概要', 'nav.recruit': '求人・応募', 'footer.privacy': '個人情報の取り扱い', 'nav.staffpage': '従業員専用ページ', 'drawer.site': 'ホームページ', 'drawer.staff': '従業員の方へ', 'nav.partnerpage': '下請け専用ページ', 'drawer.partner': '協力会社の方へ', 'drawer.close': '閉じる', 'menu': 'メニュー' };
 function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
 
 const params = new URLSearchParams(location.search);
@@ -295,6 +299,8 @@ document.addEventListener('DOMContentLoaded', () => {
       a('footer.privacy', 'privacy.html', page === 'privacy.html');
       h(tx('drawer.staff'));
       a('nav.staffpage', window.SITE.STAFF_URL);
+      h(tx('drawer.partner'));
+      a('nav.partnerpage', window.SITE.PARTNER_URL);
       burger.setAttribute('aria-label', tx('menu'));
     };
     build();
@@ -330,6 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.prepend(bar);
   }
   document.querySelectorAll('[data-staff-link]').forEach(a => { a.href = window.SITE.STAFF_URL; });
+  document.querySelectorAll('[data-partner-link]').forEach(a => { a.href = window.SITE.PARTNER_URL; });
   document.querySelectorAll('[data-year]').forEach(el => { el.textContent = new Date().getFullYear(); });
   applyLang();
 });
