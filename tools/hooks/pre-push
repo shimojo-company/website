@@ -1,5 +1,6 @@
 #!/bin/bash
 # GitHub に送る前に、送る記録すべて（足した行・説明・ブランチ名）を、もう一度調べる（[自社] は調べない）。
+# 「@@ … @@」の行（変えた場所の見出し。上の行の写しが途中で切れて入る）は変更ではないので調べない
 export NG_SKIP_SECTIONS="自社"
 zero="0000000000000000000000000000000000000000"
 tmp="$(mktemp)"
@@ -7,9 +8,9 @@ while read -r local_ref local_sha remote_ref remote_sha; do
   [ "$local_sha" = "$zero" ] && continue   # ブランチを消すときは調べない
   echo "$remote_ref" >> "$tmp"
   if [ "$remote_sha" = "$zero" ]; then
-    git log -p -U0 --no-color --format='%B' "$local_sha" --not --remotes | grep -v '^-' >> "$tmp"
+    git log -p -U0 --no-color --format='%B' "$local_sha" --not --remotes | grep -v -e '^-' -e '^@@' >> "$tmp"
   else
-    git log -p -U0 --no-color --format='%B' "$remote_sha..$local_sha" | grep -v '^-' >> "$tmp"
+    git log -p -U0 --no-color --format='%B' "$remote_sha..$local_sha" | grep -v -e '^-' -e '^@@' >> "$tmp"
   fi
 done
 bash "$(dirname "$0")/check-ng-words.sh" "$tmp" "GitHub に送る記録"
