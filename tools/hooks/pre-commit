@@ -1,0 +1,11 @@
+#!/bin/bash
+# 記録（コミット）を作る前に、足した行とファイル名に、Git に入れてはいけない言葉がないか調べる。
+# website は社名を公開してよいので、一覧の [自社] は調べない。
+export NG_SKIP_SECTIONS="自社"
+tmp="$(mktemp)"
+git diff --cached -U0 --no-color --no-ext-diff | grep '^+' > "$tmp"
+git diff --cached --name-only >> "$tmp"
+bash "$(dirname "$0")/check-ng-words.sh" "$tmp" "記録する変更"
+rc=$?
+rm -f "$tmp"
+exit $rc

@@ -1,0 +1,4 @@
+#!/bin/bash
+# 記録の説明（コミットメッセージ）に、Git に入れてはいけない言葉がないか調べる（[自社] は調べない）。
+export NG_SKIP_SECTIONS="自社"
+bash "$(dirname "$0")/check-ng-words.sh" "$1" "記録の説明（コミットメッセージ）"
