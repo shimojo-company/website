@@ -7,6 +7,17 @@
 
 ビルド・リント・テストのコマンドはない。HTML・CSS・JavaScript をそのまま公開する。
 
+## Git に入れてはいけない言葉の確認
+
+取引先・人の名前とメールアドレスが Git に入らないように、`tools/hooks/` で自動で調べる（2026-11-26 オーナー。一度 GitHub に送った記録は、送り直しても履歴に残り、自分では消せないため）。company と同じ仕組み（`check-ng-words.sh` は company と同じもの。片方を直したら、もう片方にも写す）。
+
+- はじめに1回（作業フォルダ・PC ごと）: `git config core.hooksPath tools/hooks`
+- `pre-commit`（足した行とファイル名）・`commit-msg`（記録の説明）・`pre-push`（GitHub に送る記録すべてとブランチ名）が調べ、見つかったら止める
+- 言葉の一覧は company の `private/git-ng-words.txt`（ドライブ。Git に入れない）を、となりの作業フォルダ（`../company/`）から読む。社名は公開してよいので `[自社]` の区切りは調べない
+- Codespace（ドライブがない）では、一覧の中身を Codespaces のシークレット `GIT_NG_WORDS` に入れる。ないと記録が止まる
+- プルリクエストの題名・説明は、作る前に文章をファイルに書いて `NG_SKIP_SECTIONS=自社 bash tools/hooks/check-ng-words.sh <ファイル> 説明` で調べる
+- 止められたら直してから記録し直す。`--no-verify` で飛ばさない
+
 ## 構成
 
 - `index.html`: トップ（事業内容・強み・会社概要・お問い合わせ）
